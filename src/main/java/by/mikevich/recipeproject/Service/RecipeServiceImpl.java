@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Optional;
 
 /**
  * The type Recipe service.
@@ -32,9 +31,9 @@ public class RecipeServiceImpl implements RecipeService {
     }
 
     @Override
-    public Optional<List<Recipe>> getRecipes() {
+    public List<Recipe> getRecipes() {
         log.debug("RecipeServiceImpl's getRecipes()");
 
-        return Optional.of(recipeRepository.findAll());
+        return recipeRepository.findAll();
     }
 }
