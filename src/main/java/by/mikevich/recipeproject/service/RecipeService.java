@@ -1,4 +1,4 @@
-package by.mikevich.recipeproject.Service;
+package by.mikevich.recipeproject.service;
 
 import by.mikevich.recipeproject.model.Recipe;
 
@@ -14,4 +14,5 @@ public interface RecipeService {
      * @return the recipes
      */
     List<Recipe> getRecipes();
+    Recipe findById(Long id);
 }

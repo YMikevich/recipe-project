@@ -1,6 +1,6 @@
 package by.mikevich.recipeproject.controller;
 
-import by.mikevich.recipeproject.Service.RecipeService;
+import by.mikevich.recipeproject.service.RecipeService;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;

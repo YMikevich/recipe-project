@@ -1,30 +1,27 @@
 package by.mikevich.recipeproject.controller;
 
 import by.mikevich.recipeproject.service.RecipeService;
-import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 
-@Slf4j
 @Controller
-public class IndexController {
+public class RecipeController {
 
     private RecipeService recipeService;
 
     @Autowired
-    public IndexController(RecipeService recipeService) {
-        log.debug("IndexController's constructor");
-
+    public RecipeController(RecipeService recipeService) {
         this.recipeService = recipeService;
     }
 
-    @GetMapping({"/index","/", ""})
-    public String getIndexPage(Model model) {
-        log.debug("IndexController's getIndexPage()");
+    @GetMapping("/recipe/show/{recipe-id}")
+    public String getRecipeById(Model model, @PathVariable(name = "recipe-id") Long recipeId) {
 
-        model.addAttribute("recipes", recipeService.getRecipes());
-        return "index";
+        model.addAttribute("recipe", recipeService.findById(recipeId));
+
+        return "recipe/show";
     }
 }

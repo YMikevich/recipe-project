@@ -139,6 +139,8 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
         List<Recipe> recipes = new ArrayList<>();
         recipes.add(guacamoleRecipe);
 
+        guacamoleRecipe.setSource("Simple Recipes");
+
         log.debug("Guacamole recipe constructed");
 
         return recipes;

@@ -1,4 +1,4 @@
-package by.mikevich.recipeproject.Service;
+package by.mikevich.recipeproject.service;
 
 import by.mikevich.recipeproject.model.Recipe;
 import by.mikevich.recipeproject.repositories.RecipeRepository;
@@ -35,5 +35,12 @@ public class RecipeServiceImpl implements RecipeService {
         log.debug("RecipeServiceImpl's getRecipes()");
 
         return recipeRepository.findAll();
+    }
+
+    @Override
+    public Recipe findById(Long id) {
+        log.debug("RecipeServiceImpl's findById()");
+
+        return recipeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
     }
 }
