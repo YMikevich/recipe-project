@@ -3,18 +3,30 @@ package by.mikevich.recipeproject.converters;
 import by.mikevich.recipeproject.commands.RecipeCommand;
 import by.mikevich.recipeproject.model.Recipe;
 import lombok.Synchronized;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.convert.converter.Converter;
 import org.springframework.lang.Nullable;
 import org.springframework.stereotype.Component;
 
+/**
+ * The type Recipe to recipe command.
+ */
 @Component
+@Slf4j
 public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
 
     private NotesToNotesCommand notesConverter;
     private CategoryToCategoryCommand categoryConverter;
     private IngredientToIngredientCommand ingredientConverter;
 
+    /**
+     * Instantiates a new Recipe to recipe command.
+     *
+     * @param notesConverter      the notes converter
+     * @param categoryConverter   the category converter
+     * @param ingredientConverter the ingredient converter
+     */
     @Autowired
     public RecipeToRecipeCommand(NotesToNotesCommand notesConverter, CategoryToCategoryCommand categoryConverter, IngredientToIngredientCommand ingredientConverter) {
         this.notesConverter = notesConverter;
@@ -26,6 +38,7 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
     @Nullable
     @Override
     public RecipeCommand convert(Recipe recipe) {
+        log.debug("Converting Recipe to RecipeCommand");
 
         if (recipe == null)
             return null;

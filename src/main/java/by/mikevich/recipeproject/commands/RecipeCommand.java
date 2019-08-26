@@ -25,4 +25,5 @@ public class RecipeCommand {
     private Set<CategoryCommand> categories = new HashSet<>();
     private Set<IngredientCommand> ingredients = new HashSet<>();
     private NotesCommand notes;
+    private Byte[] image;
 }

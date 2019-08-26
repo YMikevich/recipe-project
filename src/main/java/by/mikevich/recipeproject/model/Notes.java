@@ -16,8 +16,7 @@ public class Notes {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @OneToOne
-    @JoinColumn(name = "recipe_id")
+    @OneToOne(mappedBy = "notes")
     private Recipe recipe;
 
     @Lob

@@ -16,6 +16,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+/**
+ * The type Recipe bootstrap.
+ */
 @Slf4j
 @Component
 public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEvent> {
@@ -24,6 +27,13 @@ public class RecipeBootstrap implements ApplicationListener<ContextRefreshedEven
     private CategoryRepository categoryRepository;
     private UnitOfMeasureRepository unitOfMeasureRepository;
 
+    /**
+     * Instantiates a new Recipe bootstrap.
+     *
+     * @param recipeRepository        the recipe repository
+     * @param categoryRepository      the category repository
+     * @param unitOfMeasureRepository the unit of measure repository
+     */
     @Autowired
     public RecipeBootstrap(RecipeRepository recipeRepository, CategoryRepository categoryRepository, UnitOfMeasureRepository unitOfMeasureRepository) {
         log.debug("RecipeBootsTrap's constructor");

@@ -46,7 +46,7 @@ public class IngredientCommandToIngredientTest {
         ingredientCommand.setId(INGREDIENT_ID);
         ingredientCommand.setDescription(INGREDIENT_DESCRIPTION);
         ingredientCommand.setAmount(AMOUNT);
-        ingredientCommand.setUnitOfMeasure(uomCommand);
+        ingredientCommand.setUom(uomCommand);
 
         //when
         Ingredient ingredient = ingredientConverter.convert(ingredientCommand);
@@ -55,7 +55,7 @@ public class IngredientCommandToIngredientTest {
         assertEquals(INGREDIENT_ID, ingredient.getId());
         assertEquals(INGREDIENT_DESCRIPTION, ingredient.getDescription());
         assertEquals(AMOUNT, ingredient.getAmount());
-        assertEquals(UOM_ID, ingredient.getUnitOfMeasure().getId());
-        assertEquals(UOM_DESCRIPTION, ingredient.getUnitOfMeasure().getDescription());
+        assertEquals(UOM_ID, ingredient.getUom().getId());
+        assertEquals(UOM_DESCRIPTION, ingredient.getUom().getDescription());
     }
 }

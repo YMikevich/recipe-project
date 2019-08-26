@@ -1,6 +1,7 @@
 package by.mikevich.recipeproject.model;
 
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 import javax.persistence.*;
 import java.util.HashSet;
@@ -11,6 +12,7 @@ import java.util.Set;
  */
 @Data
 @Entity
+@EqualsAndHashCode(exclude = {"image", "directions", "description"})
 public class Recipe {
 
     @Id
@@ -41,12 +43,18 @@ public class Recipe {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "recipe")
     private Set<Ingredient> ingredients = new HashSet<>();
 
-    @OneToOne(cascade = CascadeType.ALL, mappedBy = "recipe")
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "notes_id")
     private Notes notes;
 
     public void addIngredient(Ingredient ingredient) {
         ingredients.add(ingredient);
         ingredient.setRecipe(this);
+    }
+
+    public void deleteIngredient(Ingredient ingredient){
+        ingredient.setRecipe(null);
+        ingredients.remove(ingredient);
     }
 
     public void addCategory(Category category) {
