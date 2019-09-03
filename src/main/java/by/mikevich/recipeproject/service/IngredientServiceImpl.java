@@ -4,6 +4,7 @@ import by.mikevich.recipeproject.commands.IngredientCommand;
 import by.mikevich.recipeproject.converters.IngredientCommandToIngredient;
 import by.mikevich.recipeproject.converters.IngredientToIngredientCommand;
 import by.mikevich.recipeproject.converters.UnitOfMeasureCommandToUnitOfMeasure;
+import by.mikevich.recipeproject.exceptions.NotFoundException;
 import by.mikevich.recipeproject.model.Ingredient;
 import by.mikevich.recipeproject.model.Recipe;
 import by.mikevich.recipeproject.repositories.RecipeRepository;
@@ -14,6 +15,9 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
+/**
+ * The type Ingredient service.
+ */
 @Service
 @Slf4j
 public class IngredientServiceImpl implements IngredientService {
@@ -23,6 +27,14 @@ public class IngredientServiceImpl implements IngredientService {
     private UnitOfMeasureCommandToUnitOfMeasure unitOfMeasureCommandToUnitOfMeasure;
     private RecipeRepository recipeRepository;
 
+    /**
+     * Instantiates a new Ingredient service.
+     *
+     * @param ingredientToIngredientCommand       the ingredient to ingredient command
+     * @param recipeRepository                    the recipe repository
+     * @param ingredientCommandToIngredient       the ingredient command to ingredient
+     * @param unitOfMeasureCommandToUnitOfMeasure the unit of measure command to unit of measure
+     */
     @Autowired
     public IngredientServiceImpl(IngredientToIngredientCommand ingredientToIngredientCommand, RecipeRepository recipeRepository,
                                  IngredientCommandToIngredient ingredientCommandToIngredient,
@@ -39,8 +51,8 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
         if (!recipeOptional.isPresent()) {
-            //todo error handling
             log.error("recipe id not found");
+            throw new NotFoundException("recipe with id " + recipeId + "not found");
         }
 
         Recipe recipe = recipeOptional.get();
@@ -51,8 +63,8 @@ public class IngredientServiceImpl implements IngredientService {
                 .findFirst();
 
         if (!ingredientOptional.isPresent()) {
-            //todo error handling
             log.error("ingredient id not found");
+            throw new NotFoundException("ingredient with recipe id " + recipeId + " and ingredient id " + ingredientId + " not found");
         }
 
         return ingredientOptional.get();
@@ -65,8 +77,8 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(ingredientCommand.getRecipeId());
 
         if (!recipeOptional.isPresent()) {
-            //todo error handling
-            log.error("recipe id hasn't been found while saving the ingredient");
+            log.error("recipe id not found");
+            throw new NotFoundException("recipe with id " + ingredientCommand.getRecipeId() + "not found");
         }
 
         Recipe recipe = recipeOptional.get();
@@ -89,10 +101,12 @@ public class IngredientServiceImpl implements IngredientService {
 
         Recipe savedRecipe = recipeRepository.save(recipe);
 
+        //save
         Optional<Ingredient> savedIngredient = savedRecipe.getIngredients().stream()
                 .filter(ingredient -> ingredient.getId().equals(ingredientCommand.getId()))
                 .findFirst();
 
+        //update
         if(!savedIngredient.isPresent()) {
             savedIngredient = savedRecipe.getIngredients().stream()
                     .filter(ingredient -> ingredient.getUom().getId().equals(ingredientCommand.getUom().getId()))
@@ -100,7 +114,12 @@ public class IngredientServiceImpl implements IngredientService {
                     .filter(ingredient -> ingredient.getDescription().equals(ingredientCommand.getDescription()))
                     .findFirst();
         }
-        //todo not found check
+
+
+        if(!savedIngredient.isPresent()) {
+            log.error("ingredient id not found");
+            throw new NotFoundException("ingredient with recipe id " + ingredientCommand.getRecipeId() + " and ingredient id " + ingredientCommand.getId() + " not found");
+        }
         return ingredientToIngredientCommand.convert(savedIngredient.get());
     }
 
@@ -110,7 +129,8 @@ public class IngredientServiceImpl implements IngredientService {
         Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
         if (!recipeOptional.isPresent()) {
-            //todo error handling
+            log.error("recipe id not found");
+            throw new NotFoundException("recipe with id " + recipeId + "not found");
         }
 
         Recipe recipe = recipeOptional.get();

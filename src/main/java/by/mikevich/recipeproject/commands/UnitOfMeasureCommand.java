@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The type Unit of measure command.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

@@ -13,6 +13,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 
+/**
+ * The type Ingredient controller.
+ */
 @Controller
 public class IngredientController {
 
@@ -20,12 +23,26 @@ public class IngredientController {
     private IngredientService ingredientService;
     private UnitOfMeasureService uomService;
 
+    /**
+     * Instantiates a new Ingredient controller.
+     *
+     * @param recipeService     the recipe service
+     * @param ingredientService the ingredient service
+     * @param uomService        the uom service
+     */
     public IngredientController(RecipeService recipeService, IngredientService ingredientService, UnitOfMeasureService uomService) {
         this.recipeService = recipeService;
         this.ingredientService = ingredientService;
         this.uomService = uomService;
     }
 
+    /**
+     * List ingredients string.
+     *
+     * @param recipeId the recipe id
+     * @param model    the model
+     * @return the string
+     */
     @GetMapping("/recipe/ingredients/{recipeId}")
     public String listIngredients(@PathVariable Long recipeId, Model model) {
         model.addAttribute("recipe", recipeService.findRecipeCommandById(recipeId));
@@ -33,6 +50,14 @@ public class IngredientController {
         return "recipe/ingredients/list";
     }
 
+    /**
+     * Show ingredient string.
+     *
+     * @param recipeId     the recipe id
+     * @param ingredientId the ingredient id
+     * @param model        the model
+     * @return the string
+     */
     @GetMapping("/recipe/{recipeId}/ingredients/show/{ingredientId}")
     public String showIngredient(@PathVariable Long recipeId,
                                  @PathVariable Long ingredientId, Model model) {
@@ -42,6 +67,14 @@ public class IngredientController {
         return "recipe/ingredients/show";
     }
 
+    /**
+     * Update ingredient string.
+     *
+     * @param recipeId     the recipe id
+     * @param ingredientId the ingredient id
+     * @param model        the model
+     * @return the string
+     */
     @GetMapping("/recipe/{recipeId}/ingredients/update/{ingredientId}")
     public String updateIngredient(@PathVariable Long recipeId,
                                    @PathVariable Long ingredientId, Model model) {
@@ -52,6 +85,13 @@ public class IngredientController {
         return "/recipe/ingredients/create-ingredient";
     }
 
+    /**
+     * Create ingredient string.
+     *
+     * @param recipeId the recipe id
+     * @param model    the model
+     * @return the string
+     */
     @GetMapping("/recipe/{recipeId}/ingredients/create-ingredient")
     public String createIngredient(@PathVariable Long recipeId, Model model) {
 
@@ -68,6 +108,12 @@ public class IngredientController {
         return "/recipe/ingredients/create-ingredient";
     }
 
+    /**
+     * Update ingredient string.
+     *
+     * @param ingredientCommand the ingredient command
+     * @return the string
+     */
     @PostMapping("/recipe/{recipeId}/ingredients")
     public String updateIngredient(@ModelAttribute IngredientCommand ingredientCommand) {
         IngredientCommand savedIngredientCommand = ingredientService.saveIngredientCommand(ingredientCommand);
@@ -75,6 +121,13 @@ public class IngredientController {
         return "redirect:/recipe/" + savedIngredientCommand.getRecipeId() + "/ingredients/show/" + savedIngredientCommand.getId();
     }
 
+    /**
+     * Delete ingredient string.
+     *
+     * @param recipeId     the recipe id
+     * @param ingredientId the ingredient id
+     * @return the string
+     */
     @GetMapping("/recipe/{recipeId}/ingredients/delete/{ingredientId}")
     public String deleteIngredient(@PathVariable Long recipeId,
                                    @PathVariable Long ingredientId) {

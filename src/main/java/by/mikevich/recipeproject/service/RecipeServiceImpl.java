@@ -3,6 +3,7 @@ package by.mikevich.recipeproject.service;
 import by.mikevich.recipeproject.commands.RecipeCommand;
 import by.mikevich.recipeproject.converters.RecipeCommandToRecipe;
 import by.mikevich.recipeproject.converters.RecipeToRecipeCommand;
+import by.mikevich.recipeproject.exceptions.NotFoundException;
 import by.mikevich.recipeproject.model.Recipe;
 import by.mikevich.recipeproject.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class RecipeServiceImpl implements RecipeService {
     public Recipe findById(Long id) {
         log.debug("RecipeServiceImpl's findById()");
 
-        return recipeRepository.findById(id).orElseThrow(IllegalArgumentException::new);
+        return recipeRepository.findById(id).orElseThrow(() -> new NotFoundException("recipe with id " + id + " not found"));
     }
 
     @Transactional

@@ -98,7 +98,7 @@ public class RecipeControllerTest {
     }
 
     @Test
-    public void saveOrUpdateRecipe() throws Exception{
+    public void saveRecipe() throws Exception{
         RecipeCommand recipeCommand = new RecipeCommand();
         recipeCommand.setId(3L);
 
@@ -109,7 +109,8 @@ public class RecipeControllerTest {
                 .param("id", "")
                 .param("description", "string")
         )
-                .andExpect(status().is3xxRedirection())
-                .andExpect(view().name("redirect:/recipe/show/3"));
+                .andExpect(status().isOk())
+                .andExpect(view().name("recipe/create-recipe"));
     }
+
 }

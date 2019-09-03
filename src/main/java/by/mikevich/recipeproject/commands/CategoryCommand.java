@@ -4,6 +4,9 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+/**
+ * The type Category command.
+ */
 @Getter
 @Setter
 @NoArgsConstructor

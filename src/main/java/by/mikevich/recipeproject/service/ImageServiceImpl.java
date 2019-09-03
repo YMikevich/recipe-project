@@ -1,5 +1,6 @@
 package by.mikevich.recipeproject.service;
 
+import by.mikevich.recipeproject.exceptions.NotFoundException;
 import by.mikevich.recipeproject.model.Recipe;
 import by.mikevich.recipeproject.repositories.RecipeRepository;
 import lombok.extern.slf4j.Slf4j;
@@ -11,12 +12,20 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.IOException;
 import java.util.Optional;
 
+/**
+ * The type Image service.
+ */
 @Service
 @Slf4j
 public class ImageServiceImpl implements ImageService {
 
     private RecipeRepository recipeRepository;
 
+    /**
+     * Instantiates a new Image service.
+     *
+     * @param recipeRepository the recipe repository
+     */
     @Autowired
     public ImageServiceImpl(RecipeRepository recipeRepository) {
         this.recipeRepository = recipeRepository;
@@ -29,7 +38,8 @@ public class ImageServiceImpl implements ImageService {
             Optional<Recipe> recipeOptional = recipeRepository.findById(recipeId);
 
             if(!recipeOptional.isPresent()) {
-                //todo error handling
+                log.error("recipe id not found");
+                throw new NotFoundException("recipe with id " + recipeId + "not found");
             }
 
             Recipe recipe = recipeOptional.get();

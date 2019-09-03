@@ -7,21 +7,29 @@ import by.mikevich.recipeproject.model.Recipe;
 import by.mikevich.recipeproject.repositories.RecipeRepository;
 import org.junit.Before;
 import org.junit.Test;
-import org.mockito.Mock;
+import org.junit.runner.RunWith;
 import org.mockito.MockitoAnnotations;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.junit4.SpringRunner;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Optional;
 
 import static org.junit.Assert.assertEquals;
-import static org.mockito.ArgumentMatchers.anyLong;
-import static org.mockito.Mockito.*;
 
+@RunWith(SpringRunner.class)
+@SpringBootTest
+@Transactional
 public class IngredientServiceImplIT {
 
+    @Autowired
     private IngredientService ingredientService;
+
+    @Autowired
     private IngredientToIngredientCommand ingredientToIngredientCommand;
 
-    @Mock
+    @Autowired
     private RecipeRepository recipeRepository;
 
     @Before
@@ -48,12 +56,10 @@ public class IngredientServiceImplIT {
         Optional<Recipe> recipeOptional = Optional.of(recipe);
 
         //when
-        when(recipeRepository.findById(anyLong())).thenReturn(recipeOptional);
         IngredientCommand ingredientCommand = ingredientService.findByIngredientIdAndRecipeId(1L, 2L);
 
         //then
         assertEquals(Long.valueOf(1L), ingredientCommand.getRecipeId());
         assertEquals(Long.valueOf(2L), ingredientCommand.getId());
-        verify(recipeRepository, times(1)).findById(anyLong());
     }
 }
