@@ -62,7 +62,7 @@ public class ImageController {
 
         imageService.saveImageFile(id, file);
 
-        return "redirect:/recipe/show/" + id;
+        return "redirect:/recipe/update/" + id;
     }
 
     /**

@@ -59,8 +59,7 @@ public class RecipeServiceImpl implements RecipeService {
     public RecipeCommand saveRecipeCommand(RecipeCommand recipeCommand) {
         log.debug("RecipeServiceImpl's saveRecipeCommand()");
 
-        Recipe savedRecipe = recipeCommandToRecipe.convert(recipeCommand);
-        recipeRepository.save(savedRecipe);
+        Recipe savedRecipe = recipeRepository.save(recipeCommandToRecipe.convert(recipeCommand));
 
         return recipeToRecipeCommand.convert(savedRecipe);
     }

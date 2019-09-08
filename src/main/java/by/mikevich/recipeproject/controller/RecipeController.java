@@ -43,7 +43,7 @@ public class RecipeController {
     @GetMapping("/recipe/show/{recipe-id}")
     public String getRecipeById(Model model, @PathVariable(name = "recipe-id") Long recipeId) {
 
-        model.addAttribute("recipe", recipeService.findById(recipeId));
+        model.addAttribute("recipe", recipeService.findRecipeCommandById(recipeId));
 
         return "recipe/show";
     }
@@ -118,6 +118,10 @@ public class RecipeController {
             });
 
             return "recipe/create-recipe";
+        }
+
+        if(recipeCommand.getImage()==null) {
+            recipeCommand.setImage(recipeService.findRecipeCommandById(recipeCommand.getId()).getImage());
         }
 
         RecipeCommand savedRecipeCommand = recipeService.saveRecipeCommand(recipeCommand);

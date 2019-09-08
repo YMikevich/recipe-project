@@ -53,6 +53,8 @@ public class RecipeToRecipeCommand implements Converter<Recipe, RecipeCommand> {
         recipeCommand.setDifficulty(recipe.getDifficulty());
         recipeCommand.setCookTime(recipe.getCookTime());
         recipeCommand.setPrepTime(recipe.getPrepTime());
+        if (recipe.getImage()!=null)
+            recipeCommand.setImage(recipe.getImage());
         recipeCommand.setDescription(recipe.getDescription());
 
         if (recipe.getCategories() != null && recipe.getCategories().size() > 0){
